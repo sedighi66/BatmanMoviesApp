@@ -11,7 +11,7 @@ import org.msfox.batmanmoviesapp.MainActivity
 
 @Suppress("unused")
 @Module
-abstract class ListActivityModule {
+abstract class MainActivityModule {
     @ContributesAndroidInjector
-    abstract fun contributeListActivity(): MainActivity
+    abstract fun contributeMainActivity(): MainActivity
 }
