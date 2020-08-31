@@ -23,7 +23,7 @@ import android.content.Context
 import dagger.Module
 import dagger.Provides
 import org.msfox.batmanmoviesapp.api.NetworkResponseAdapterFactory
-import org.msfox.batmanmoviesapp.model.SearchMovies
+import org.msfox.batmanmoviesapp.api.SearchMovies
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton

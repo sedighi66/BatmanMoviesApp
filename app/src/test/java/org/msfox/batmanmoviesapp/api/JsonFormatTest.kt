@@ -6,7 +6,7 @@ import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import org.msfox.batmanmoviesapp.model.SearchMovies
+import org.msfox.batmanmoviesapp.utils.JsonString.getJsonAsString
 
 
 @RunWith(JUnit4::class)
@@ -44,14 +44,4 @@ class JsonFormatTest {
 
 
     }
-
-
-
-    private fun getJsonAsString(fileName: String): String {
-        val inputStream = javaClass.classLoader!!
-            .getResourceAsStream("api-response/$fileName")
-
-        return Okio.buffer(Okio.source(inputStream)).readString(Charsets.UTF_8)
-    }
-
 }

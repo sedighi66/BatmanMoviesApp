@@ -1,6 +1,5 @@
 package org.msfox.batmanmoviesapp.api
 
-import org.msfox.batmanmoviesapp.model.SearchMovies
 import retrofit2.http.GET
 import retrofit2.http.Query
 

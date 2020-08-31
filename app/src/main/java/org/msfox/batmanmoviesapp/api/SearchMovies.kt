@@ -1,7 +1,8 @@
-package org.msfox.batmanmoviesapp.model
+package org.msfox.batmanmoviesapp.api
 
 
 import com.google.gson.annotations.SerializedName
+import org.msfox.batmanmoviesapp.model.Movie
 
 data class SearchMovies(
     @SerializedName("Search")

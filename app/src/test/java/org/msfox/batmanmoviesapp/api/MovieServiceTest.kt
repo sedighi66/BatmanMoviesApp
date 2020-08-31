@@ -11,7 +11,6 @@ import org.hamcrest.core.IsNull
 import org.junit.*
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import org.msfox.batmanmoviesapp.model.SearchMovies
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
