@@ -23,11 +23,16 @@ class SearchMoviesDaoTest : AppDbTest() {
 
     @Test
     fun insertAndGetMoviesByIds() = runBlocking {
+        //insert empty list
+        searchMoviesDao.insertMovies(listOf())
+        var getMovie = searchMoviesDao.getMoviesByIds(listOf())
+        Assert.assertEquals(0, getMovie.count())
+
         //insert
         val movies = MoviesProvider.getMoviesWithQueryBatmanPage1().movies
         searchMoviesDao.insertMovies(movies)
 
-        val getMovie = searchMoviesDao.getMoviesByIds(movies.map { it.imdbID })
+        getMovie = searchMoviesDao.getMoviesByIds(movies.map { it.imdbID })
         Assert.assertEquals(10, getMovie.count())
         Assert.assertEquals(movies[0].title, getMovie[0].title)
         Assert.assertEquals(movies[1].title, getMovie[1].title)
@@ -43,29 +48,58 @@ class SearchMoviesDaoTest : AppDbTest() {
 
     @Test
     fun insertQueryIdsAndGet() = runBlocking {
-        //insert
         val imdbId = "1111"
         val query = "batman"
 
-        val queryIds = QueryIds(query, listOf(imdbId))
+        //empty list for queryIds
+        var queryIds = QueryIds(query, listOf())
         searchMoviesDao.insertQueryIds(queryIds)
 
-        val movieIds = searchMoviesDao.getQueryIds(query)
+        var movieIds = searchMoviesDao.getQueryIds(query)
+
+        Assert.assertEquals(0, movieIds.imdbIds.count())
+
+        //insert
+        queryIds = QueryIds(query, listOf(imdbId))
+        searchMoviesDao.insertQueryIds(queryIds)
+
+        movieIds = searchMoviesDao.getQueryIds(query)
 
         Assert.assertEquals(1, movieIds.imdbIds.count())
         Assert.assertEquals(imdbId, movieIds.imdbIds.first())
     }
 
     @Test
-    fun insertMoviesByQueryAndGetIt() = runBlocking{
-        val query = "batman"
-        val movies = MoviesProvider.getMoviesWithQueryBatmanPage1()
+    fun insertMoviesByQueryAndGetItPage1AndPage2AndRefresh() = runBlocking{
 
-        searchMoviesDao.insertQueryIdsAndMovies(query, movies.movies)
-        val getMovies = searchMoviesDao.getMoviesByQuery(query)
+        val query = "batman"
+        //when there is nothing in db yet, the db should return an empty list
+        var getMovies = searchMoviesDao.getMoviesByQuery(query)
+        Assert.assertEquals(0, getMovies.count())
+
+        //insert
+        val moviesPage1 = MoviesProvider.getMoviesWithQueryBatmanPage1()
+
+        searchMoviesDao.insertQueryIdsAndMovies(query, moviesPage1.movies)
+        getMovies = searchMoviesDao.getMoviesByQuery(query)
 
         Assert.assertEquals(10, getMovies.count())
-        Assert.assertEquals(movies.movies.first().title, getMovies.first().title)
-        Assert.assertEquals(movies.movies.last().title, getMovies.last().title)
+        Assert.assertEquals(moviesPage1.movies.first().title, getMovies.first().title)
+        Assert.assertEquals(moviesPage1.movies.last().title, getMovies.last().title)
+
+        val moviesPage2 = MoviesProvider.getMoviesWithQueryBatmanPage2()
+
+        searchMoviesDao.insertQueryIdsAndMovies(query, moviesPage2.movies)
+        getMovies = searchMoviesDao.getMoviesByQuery(query)
+
+        Assert.assertEquals(20, getMovies.count())
+        Assert.assertEquals(moviesPage1.movies.first().title, getMovies.first().title)
+        Assert.assertEquals(moviesPage2.movies[0].title, getMovies[10].title)
+        Assert.assertEquals(moviesPage2.movies.last().title, getMovies.last().title)
+
+        //delete queries in case of refresh
+        searchMoviesDao.deleteQuery(query)
+        getMovies = searchMoviesDao.getMoviesByQuery(query)
+        Assert.assertEquals(0, getMovies.count())
     }
 }

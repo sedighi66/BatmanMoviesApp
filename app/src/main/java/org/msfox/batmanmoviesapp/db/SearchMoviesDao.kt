@@ -17,21 +17,36 @@ abstract class SearchMoviesDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract suspend fun insertQueryIds(queryIds: QueryIds)
 
-    @Query("DELETE FROM query_ids_table")
-    abstract suspend fun deleteAllQueryIds()
-
     @Query("SELECT * FROM query_ids_table WHERE `query` = :query")
     abstract suspend fun getQueryIds(query: String): QueryIds
 
+    @Query("DELETE FROM query_ids_table")
+    abstract suspend fun deleteAllQueryIds()
+
+    @Query("DELETE FROM query_ids_table WHERE `query` = :query")
+    abstract suspend fun deleteQuery(query: String)
+
     @Transaction
     open suspend fun getMoviesByQuery(query: String): List<Movie>{
-        val ids = getQueryIds(query).imdbIds
+        val queryIds = getQueryIds(query)
+        val ids = mutableListOf<String>()
+        if(queryIds != null)
+            ids.addAll(queryIds.imdbIds)
+
         return getMoviesByIds(ids)
     }
 
     @Transaction
     open suspend fun insertQueryIdsAndMovies(query: String, movies: List<Movie>){
-        val queryIds = QueryIds(query, movies.map { it.imdbID })
+        val previousIds = getQueryIds(query)
+        val newIds =  movies.map { it.imdbID }
+        val totalIds = mutableListOf<String>().apply {
+            if(previousIds != null && previousIds.imdbIds.isNotEmpty())
+                this.addAll(previousIds.imdbIds)
+
+            this.addAll(newIds)
+        }
+        val queryIds = QueryIds(query, totalIds)
 
         insertQueryIds(queryIds)
         insertMovies(movies)
