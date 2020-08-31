@@ -1,13 +1,22 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+apply plugin: "kotlin-allopen"
+apply plugin: 'androidx.navigation.safeargs.kotlin'
+
+allOpen {
+    // allows mocking for classes w/o directly opening them for release builds
+    annotation('org.msfox.maptaxitest.utils.OpenClass')
+}
 
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
 
     defaultConfig {
-        applicationId "org.msfox.batmanmoviesapp"
+        applicationId "org.msfox.bamanchallenge"
         minSdkVersion 19
         targetSdkVersion 30
         versionCode 1
@@ -22,16 +31,100 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+    sourceSets {
+        androidTest.java.srcDirs += "src/test-common/java"
+        test.java.srcDirs += "src/test-common/java"
+    }
+
+    buildFeatures {
+        dataBinding = true
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
 }
 
 dependencies {
-    implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.3.1'
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "androidx.constraintlayout:constraintlayout:$versions.constraint_layout"
+    implementation "androidx.recyclerview:recyclerview:$versions.recyclerview"
+    implementation "com.google.android.material:material:$versions.material"
+    implementation "androidx.core:core-ktx:$versions.core_ktx"
+    implementation "androidx.transition:transition:$versions.transition"
+    debugImplementation "androidx.fragment:fragment-testing:${versions.fragment}"
+    implementation "androidx.navigation:navigation-fragment-ktx:$versions.navigation"
+    implementation "androidx.navigation:navigation-ui-ktx:$versions.navigation"
+    implementation "androidx.navigation:navigation-dynamic-features-fragment:$versions.navigation"
+    androidTestImplementation "androidx.navigation:navigation-testing:$versions.navigation"
 
+    //lifecycle
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$versions.lifecycle"
+    implementation "androidx.lifecycle:lifecycle-runtime:$versions.lifecycle"
+    implementation "androidx.lifecycle:lifecycle-common-java8:$versions.lifecycle"
+    //noinspection LifecycleAnnotationProcessorWithJava8
+    implementation "androidx.lifecycle:lifecycle-common-java8:$versions.lifecycle"
+    //retrofit
+    implementation "com.squareup.retrofit2:retrofit:$versions.retrofit"
+    implementation "com.squareup.retrofit2:converter-gson:$versions.retrofit"
+    //glide
+    implementation "com.github.bumptech.glide:glide:$versions.glide"
+    //dagger
+    implementation "com.google.dagger:dagger:$versions.dagger"
+    implementation "com.google.dagger:dagger-android:$versions.dagger"
+    implementation "com.google.dagger:dagger-android-support:$versions.dagger"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlin"
+
+    kapt "com.google.dagger:dagger-android-processor:$versions.dagger"
+    kapt "com.google.dagger:dagger-compiler:$versions.dagger"
+    //unit test
+    testImplementation "androidx.test.ext:junit:$versions.atsl_junit"
+    testImplementation "com.squareup.okhttp3:mockwebserver:$versions.mockwebserver"
+    testImplementation "androidx.arch.core:core-testing:$versions.arch_core"
+    testImplementation "org.mockito:mockito-core:$versions.mockito"
+
+    androidTestImplementation "androidx.test:core:$versions.atsl_core"
+    androidTestImplementation "androidx.test.ext:junit:$versions.atsl_junit"
+    androidTestImplementation "androidx.test:runner:$versions.atsl_runner"
+    androidTestImplementation "androidx.test:rules:$versions.atsl_rules"
+
+    androidTestImplementation "androidx.test.espresso:espresso-core:$versions.espresso"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$versions.espresso"
+
+    androidTestImplementation "androidx.arch.core:core-testing:$versions.arch_core"
+    androidTestImplementation "org.mockito:mockito-core:$versions.mockito"
+    androidTestImplementation "org.mockito:mockito-android:$versions.mockito_android"
+
+    androidTestImplementation "androidx.appcompat:appcompat:$versions.appcompat"
+    androidTestImplementation "androidx.recyclerview:recyclerview:$versions.recyclerview"
+    androidTestImplementation "com.google.android.material:material:$versions.material"
+
+    //Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$versions.coroutines"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$versions.coroutines"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$versions.coroutines_test"
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$versions.coroutines_test"
+
+
+    //mockito kotlin support
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$versions.mockito_kotlin"
+    androidTestImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$versions.mockito_kotlin"
+
+    //room
+    implementation "androidx.room:room-runtime:$versions.room"
+    implementation "androidx.room:room-ktx:$versions.room"
+    kapt "androidx.room:room-compiler:$versions.room"
+
+
+    //material progressbar
+    implementation 'me.zhanghai.android.materialprogressbar:library:1.6.1'
 }
