@@ -5,9 +5,6 @@ import org.msfox.batmanmoviesapp.model.Movie
 import org.msfox.batmanmoviesapp.model.QueryIds
 
 
-/**
- * Created by mohsen on 28,June,2020
- */
 @Dao
 abstract class SearchMoviesDao {
 
@@ -19,6 +16,9 @@ abstract class SearchMoviesDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract suspend fun insertQueryIds(queryIds: QueryIds)
+
+    @Query("DELETE FROM query_ids_table")
+    abstract suspend fun deleteAllQueryIds()
 
     @Query("SELECT * FROM query_ids_table WHERE `query` = :query")
     abstract suspend fun getQueryIds(query: String): QueryIds

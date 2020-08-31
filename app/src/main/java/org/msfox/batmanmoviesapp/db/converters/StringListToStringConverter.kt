@@ -6,9 +6,6 @@ import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
 
 
-/**
- * Created by mohsen on 28,June,2020
- */
 class StringListToStringConverter {
 
     @TypeConverter

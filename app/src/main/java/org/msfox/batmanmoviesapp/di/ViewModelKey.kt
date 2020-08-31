@@ -1,9 +1,5 @@
 package org.msfox.batmanmoviesapp.di
 
-/**
- * Created by mohsen on 04,July,2020
- */
-
 import androidx.lifecycle.ViewModel
 import dagger.MapKey
 import kotlin.reflect.KClass

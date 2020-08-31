@@ -7,10 +7,6 @@ import dagger.android.AndroidInjectionModule
 import org.msfox.batmanmoviesapp.SearchMoviesApp
 import javax.inject.Singleton
 
-/**
- * Created by mohsen on 04,July,2020
- */
-
 @Singleton
 @Component(
     modules =

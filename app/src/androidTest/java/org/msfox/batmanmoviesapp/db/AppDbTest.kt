@@ -1,9 +1,5 @@
 package org.msfox.batmanmoviesapp.db
 
-
-/**
- * Created by mohsen on 04,July,2020
- */
 import androidx.arch.core.executor.testing.CountingTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider

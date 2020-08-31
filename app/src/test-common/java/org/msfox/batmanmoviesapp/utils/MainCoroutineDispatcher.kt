@@ -10,9 +10,6 @@ import org.junit.rules.TestWatcher
 import org.junit.runner.Description
 import org.msfox.batmanmoviesapp.AppCoroutineDispatchers
 
-/**
- * Created by mohsen on 05,July,2020
- */
 @ExperimentalCoroutinesApi
 class MainCoroutineRule(
     private val testDispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()

@@ -1,6 +1,5 @@
 package org.msfox.batmanmoviesapp.db
 
-import android.service.voice.VoiceInteractionSession
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -9,13 +8,9 @@ import org.junit.Assert
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.msfox.batmanmoviesapp.model.Movie
 import org.msfox.batmanmoviesapp.model.QueryIds
 import org.msfox.batmanmoviesapp.utils.MoviesProvider
 
-/**
- * Created by mohsen on 04,July,2020
- */
 @RunWith(AndroidJUnit4::class)
 @ExperimentalCoroutinesApi
 class SearchMoviesDaoTest : AppDbTest() {
