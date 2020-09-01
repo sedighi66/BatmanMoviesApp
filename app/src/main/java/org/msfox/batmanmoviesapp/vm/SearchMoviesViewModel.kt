@@ -16,9 +16,6 @@ class SearchMoviesViewModel @Inject constructor(private val repo: SearchMoviesRe
         repo.setQuery("batman")
     }
 
-    fun loadNextPage() {
-        repo.getNextPage()
-    }
-
+    fun loadData() = repo.loadData()
     fun getMovies(): LiveData<Resource<List<Movie>>> = repo.getMovies()
 }
