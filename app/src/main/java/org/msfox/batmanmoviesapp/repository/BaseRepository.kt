@@ -30,18 +30,14 @@ constructor(private val dispatchers: AppCoroutineDispatchers) {
 
     private val result = MutableLiveData<Resource<ResultType>>()
 
-    init {
-        //Due to project requirement, we provide data from network first,
-        //when we don't have any data from network, then we should get
-        //it from database
-        fetchNetwork(true)
-    }
-
     private fun fetchNetwork(deleteDbIfSuccess: Boolean) {
         CoroutineScope(dispatchers.main).launch {
 
             result.value = (Resource.loading(null))
 
+            //Due to project requirement, we provide data from network first,
+            //when we don't have any data from network, then we should get
+            //it from database
             val apiResponse = createCall()
             when (apiResponse) {
                 is NetworkResponse.Success -> {
@@ -56,6 +52,7 @@ constructor(private val dispatchers: AppCoroutineDispatchers) {
                                     deleteDb()
 
                                 saveCallResult(it)
+                                loadFromDb()
                             }
                         }
                 }
@@ -104,4 +101,7 @@ constructor(private val dispatchers: AppCoroutineDispatchers) {
 
     @MainThread
     protected fun loadNextPage() = fetchNetwork(false)
+
+    @MainThread
+    protected fun fetchNetwork() = fetchNetwork(true)
 }
