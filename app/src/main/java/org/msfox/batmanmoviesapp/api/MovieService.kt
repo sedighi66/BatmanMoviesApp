@@ -14,4 +14,12 @@ interface MovieService {
     suspend fun search(@Query("s") query: String,
                        @Query("page") page: Int): NetworkResponse<SearchMovies, Any>
 
+
+    companion object{
+        /**
+         * each page that api returns have OFFSET number of movie in it.
+         */
+        const val OFFSET = 10
+    }
+
 }
