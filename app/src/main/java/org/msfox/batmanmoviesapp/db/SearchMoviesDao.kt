@@ -27,7 +27,7 @@ abstract class SearchMoviesDao {
     abstract suspend fun deleteQuery(query: String)
 
     @Transaction
-    open suspend fun getMoviesByQuery(query: String): List<Movie>{
+    open suspend fun getMovies(query: String): List<Movie>{
         val queryIds = getQueryIds(query)
         val ids = mutableListOf<String>()
         if(queryIds != null)
@@ -37,7 +37,7 @@ abstract class SearchMoviesDao {
     }
 
     @Transaction
-    open suspend fun insertQueryIdsAndMovies(query: String, movies: List<Movie>){
+    open suspend fun insertQueryAndMovies(query: String, movies: List<Movie>){
         val previousIds = getQueryIds(query)
         val newIds =  movies.map { it.imdbID }
         val totalIds = mutableListOf<String>().apply {
