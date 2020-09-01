@@ -25,47 +25,49 @@ import org.msfox.batmanmoviesapp.utils.exhaustive
  * @param <ResultType>
  * @param <RequestType>
 </RequestType></ResultType> */
-abstract class AbstractRepository<ResultType: Any, RequestType: Any>
+abstract class BaseRepository<ResultType, RequestType: Any>
 constructor(private val dispatchers: AppCoroutineDispatchers) {
 
     private val result = MutableLiveData<Resource<ResultType>>()
 
     init {
-        fetchNetwork()
+        //Due to project requirement, we provide data from network first,
+        //when we don't have any data from network, then we should get
+        //it from database
+        fetchNetwork(true)
     }
 
-    private fun fetchNetwork(deleteDbIfSuccess: Boolean = true) {
-        CoroutineScope(dispatchers.IO).launch {
-            withContext(dispatchers.main) {
-                result.value = (Resource.loading(null))
-            }
+    private fun fetchNetwork(deleteDbIfSuccess: Boolean) {
+        CoroutineScope(dispatchers.main).launch {
+
+            result.value = (Resource.loading(null))
 
             val apiResponse = createCall()
             when (apiResponse) {
                 is NetworkResponse.Success -> {
-                    withContext(dispatchers.main) {
-                        successRequestToResult(
-                            Resource.success(processResponse(apiResponse))
-                        ).let {
+
+                    result.value = (
+                            successRequestToResult(
+                                Resource.success(processResponse(apiResponse))
+                            )
+                            ).also {
                             withContext(dispatchers.IO) {
                                 if(deleteDbIfSuccess)
                                     deleteDb()
 
                                 saveCallResult(it)
-                                result.value = Resource.success(loadFromDb())
                             }
                         }
-                    }
                 }
                 is NetworkResponse.ApiError -> {
                     withContext(dispatchers.main) {
-                        result.value = Resource.success(loadFromDb())
+                        result.value = (Resource.success(loadFromDb()))
                     }
                 }
                 is NetworkResponse.NetworkError -> {
                     withContext(dispatchers.main) {
                         onFetchFailed()
-                        result.value = Resource.error(apiResponse.error.message, loadFromDb())
+                        result.value = (Resource.error(apiResponse.error.message, loadFromDb()))
                     }
                 }
                 is NetworkResponse.UnknownError ->{
@@ -80,30 +82,26 @@ constructor(private val dispatchers: AppCoroutineDispatchers) {
     }
     protected open fun onFetchFailed() {}
 
-    @MainThread
     protected fun liveDataResult() = result as LiveData<Resource<ResultType>>
 
+    @WorkerThread
     protected open suspend fun processResponse(response: NetworkResponse.Success<RequestType>) = response.body
 
-    @WorkerThread
+    @MainThread
     protected abstract suspend fun createCall(): NetworkResponse<RequestType, Any>
 
+    @MainThread
     protected abstract fun successRequestToResult(requestType: Resource<RequestType>): Resource<ResultType>
 
     @WorkerThread
     protected abstract suspend fun saveCallResult(item: Resource<ResultType>)
 
-    @WorkerThread
+    @MainThread
     protected abstract suspend fun loadFromDb(): ResultType
 
     @WorkerThread
     protected abstract suspend fun deleteDb()
 
-    @WorkerThread
-    protected suspend fun loadNextPage(){
-        fetchNetwork(false)
-    }
-
-
-
+    @MainThread
+    protected fun loadNextPage() = fetchNetwork(false)
 }

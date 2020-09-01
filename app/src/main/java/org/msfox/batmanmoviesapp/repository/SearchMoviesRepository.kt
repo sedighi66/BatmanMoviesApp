@@ -1,6 +1,5 @@
 package org.msfox.batmanmoviesapp.repository
 
-import androidx.room.Query
 import org.msfox.batmanmoviesapp.AppCoroutineDispatchers
 import org.msfox.batmanmoviesapp.api.MovieService
 import org.msfox.batmanmoviesapp.api.NetworkResponse
@@ -14,10 +13,13 @@ class SearchMoviesRepository @Inject constructor(
     private val dispatchers: AppCoroutineDispatchers,
     private val dao: SearchMoviesDao,
     private val service: MovieService
-): AbstractRepository<List<Movie>, SearchMovies>(dispatchers) {
+): BaseRepository<List<Movie>, SearchMovies>(dispatchers) {
 
     var query = "batman"
     private var nextPage = 1
+
+    fun getList() = liveDataResult()
+    fun getNextPage() = loadNextPage()
 
     override suspend fun createCall(): NetworkResponse<SearchMovies, Any> =
         service.search(query, nextPage)
