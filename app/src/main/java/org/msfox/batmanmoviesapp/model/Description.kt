@@ -1,8 +1,14 @@
 package org.msfox.batmanmoviesapp.model
 
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
 import com.google.gson.annotations.SerializedName
+import org.msfox.batmanmoviesapp.db.converters.RatingListToStringConverter
 
+@Entity(tableName = "description_table")
+@TypeConverters(RatingListToStringConverter::class)
 data class Description(
     @SerializedName("Title")
     val title: String,
@@ -40,6 +46,7 @@ data class Description(
     val imdbRating: String,
     @SerializedName("imdbVotes")
     val imdbVotes: String,
+    @PrimaryKey
     @SerializedName("imdbID")
     val imdbID: String,
     @SerializedName("Type")

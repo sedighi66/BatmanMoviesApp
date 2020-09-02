@@ -2,6 +2,7 @@ package org.msfox.batmanmoviesapp.utils
 
 import com.google.gson.Gson
 import org.msfox.batmanmoviesapp.api.SearchMovies
+import org.msfox.batmanmoviesapp.model.Description
 import org.msfox.batmanmoviesapp.model.Movie
 
 object MoviesProvider {
@@ -16,5 +17,11 @@ object MoviesProvider {
         val json = JsonString.getJsonAsString("list-page2.json")
         val gson = Gson()
         return gson.fromJson(json, SearchMovies::class.java)
+    }
+
+    fun getDescriptionPage(): Description{
+        val json = JsonString.getJsonAsString("description.json")
+        val gson = Gson()
+        return gson.fromJson(json, Description::class.java)
     }
 }
