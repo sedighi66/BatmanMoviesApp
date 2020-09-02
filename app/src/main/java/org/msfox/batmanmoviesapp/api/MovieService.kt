@@ -1,5 +1,6 @@
 package org.msfox.batmanmoviesapp.api
 
+import org.msfox.batmanmoviesapp.model.Description
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -13,6 +14,9 @@ interface MovieService {
     @GET("?apikey=3e974fca")
     suspend fun search(@Query("s") query: String,
                        @Query("page") page: Int): NetworkResponse<SearchMovies, Any>
+
+    @GET("?apikey=3e974fca")
+    suspend fun description(@Query("i") imdbId: String): NetworkResponse<Description, Any>
 
 
     companion object{

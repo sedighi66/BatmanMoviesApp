@@ -11,6 +11,7 @@ import org.hamcrest.core.IsNull
 import org.junit.*
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
+import org.msfox.batmanmoviesapp.model.Description
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -41,6 +42,23 @@ class MovieServiceTest {
     @After
     fun stopService() {
         mockWebServer.shutdown()
+    }
+
+    @Test
+    fun getDescription() = runBlocking{
+        enqueueResponse("description.json")
+        val response = service.description("tt0372784")
+        val document = (response as NetworkResponse.Success).body
+
+        val request = mockWebServer.takeRequest()
+        Assert.assertThat(request.path, Is.`is`("/?apikey=3e974fca&i=tt0372784"))
+
+        //we have tested json format, here we just want to be sure that retrofit is
+        //returning the json true
+        Assert.assertThat<Description>(document, IsNull.notNullValue())
+        Assert.assertThat(document.response, Is.`is`("True"))
+        Assert.assertThat(document.title, Is.`is`("Batman Begins"))
+        Assert.assertThat(document.ratings.count(), Is.`is`(3))
     }
 
     @Test
