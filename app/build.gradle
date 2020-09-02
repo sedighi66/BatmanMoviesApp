@@ -17,7 +17,7 @@ android {
 
     defaultConfig {
         applicationId "org.msfox.batmanmoviesapp"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -127,4 +127,7 @@ dependencies {
 
     //material progressbar
     implementation 'me.zhanghai.android.materialprogressbar:library:1.6.1'
+
+    //elasticview
+    implementation 'com.github.armcha:ElasticView:0.2.0'
 }

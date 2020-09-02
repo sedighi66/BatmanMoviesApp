@@ -1,4 +1,4 @@
-package org.msfox.batmanmoviesapp.ui
+package org.msfox.batmanmoviesapp.view
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView

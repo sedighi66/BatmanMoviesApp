@@ -1,4 +1,4 @@
-package org.msfox.batmanmoviesapp.ui
+package org.msfox.batmanmoviesapp.view
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingComponent
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import dagger.android.AndroidInjection
 import org.msfox.batmanmoviesapp.AppCoroutineDispatchers
 import org.msfox.batmanmoviesapp.R
@@ -45,6 +46,7 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra(ID, item.imdbID)
             startActivity(intent)
         }
+        binding.itemList.layoutManager = GridLayoutManager(this, 2)
         binding.itemList.adapter = adapter
         initItemList()
 

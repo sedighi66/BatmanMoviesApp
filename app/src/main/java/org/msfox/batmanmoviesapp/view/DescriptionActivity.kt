@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.msfox.batmanmoviesapp.ui
+package org.msfox.batmanmoviesapp.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
