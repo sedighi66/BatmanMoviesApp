@@ -32,7 +32,7 @@ constructor(private val dispatchers: AppCoroutineDispatchers) {
 
     private val result = MutableLiveData<Resource<ResultType>>()
 
-    private fun fetchNetwork(deleteDbIfSuccess: Boolean) {
+     fun fetchNetwork(deleteDbIfSuccess: Boolean = false) {
         CoroutineScope(dispatchers.main).launch {
 
             result.value = (Resource.loading(null))
@@ -98,11 +98,5 @@ constructor(private val dispatchers: AppCoroutineDispatchers) {
     protected abstract suspend fun loadFromDb(): ResultType
 
     @WorkerThread
-    protected abstract suspend fun deleteDb(): Int
-
-    @MainThread
-    protected fun loadNextPage() = fetchNetwork(false)
-
-    @MainThread
-    protected fun fetchNetwork() = fetchNetwork(true)
+    protected open suspend fun deleteDb(): Int = 0
 }

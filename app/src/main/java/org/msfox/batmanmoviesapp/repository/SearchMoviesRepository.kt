@@ -36,12 +36,8 @@ class SearchMoviesRepository @Inject constructor(
         }
     }
 
-    fun loadData(): LiveData<Resource<List<Movie>>> {
-        if(nextPage == 1)
-            super.fetchNetwork()
-        else
-            super.loadNextPage()
-
+    fun loadMoreData(): LiveData<Resource<List<Movie>>> {
+        super.fetchNetwork(false)
         return movies
     }
 
@@ -50,7 +46,7 @@ class SearchMoviesRepository @Inject constructor(
     fun setQuery(query: String){
         this.query = query
         nextPage = 1
-        super.fetchNetwork()
+        super.fetchNetwork(true)
     }
 
     fun getQuery() = query
