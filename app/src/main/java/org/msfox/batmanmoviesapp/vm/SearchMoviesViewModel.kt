@@ -7,7 +7,8 @@ import org.msfox.batmanmoviesapp.repository.Resource
 import org.msfox.batmanmoviesapp.repository.SearchMoviesRepository
 import javax.inject.Inject
 
-class SearchMoviesViewModel @Inject constructor(private val repo: SearchMoviesRepository): ViewModel()  {
+class SearchMoviesViewModel @Inject constructor(
+    private val repo: SearchMoviesRepository): ViewModel()  {
 
     init {
         //we assume the capability to search for movies from api.

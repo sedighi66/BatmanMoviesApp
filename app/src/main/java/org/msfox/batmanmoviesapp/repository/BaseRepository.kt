@@ -9,7 +9,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.msfox.batmanmoviesapp.AppCoroutineDispatchers
 import org.msfox.batmanmoviesapp.api.NetworkResponse
+import org.msfox.batmanmoviesapp.db.AppDb
 import org.msfox.batmanmoviesapp.utils.exhaustive
+import org.msfox.batmanmoviesapp.utils.wasted
 
 /**
  * Created by mohsen on 04,July,2020
@@ -42,19 +44,18 @@ constructor(private val dispatchers: AppCoroutineDispatchers) {
             when (apiResponse) {
                 is NetworkResponse.Success -> {
 
-                    result.value = (
-                            successRequestToResult(
-                                Resource.success(processResponse(apiResponse))
-                            )
-                            ).also {
-                            withContext(dispatchers.IO) {
-                                if(deleteDbIfSuccess)
-                                    deleteDb()
+                    result.value = successRequestToResult(
+                        Resource.success(processResponse(apiResponse)))
 
-                                saveCallResult(it)
-                                loadFromDb()
+                            withContext(dispatchers.IO) {
+                                if (deleteDbIfSuccess)
+                                     deleteDb()
+
+                                saveCallResult(result.value!!)
+                                //we want to increase nextPage
+                                loadFromDb().wasted()
                             }
-                        }
+
                 }
                 is NetworkResponse.ApiError -> {
                     withContext(dispatchers.main) {
@@ -97,7 +98,7 @@ constructor(private val dispatchers: AppCoroutineDispatchers) {
     protected abstract suspend fun loadFromDb(): ResultType
 
     @WorkerThread
-    protected abstract suspend fun deleteDb()
+    protected abstract suspend fun deleteDb(): Int
 
     @MainThread
     protected fun loadNextPage() = fetchNetwork(false)

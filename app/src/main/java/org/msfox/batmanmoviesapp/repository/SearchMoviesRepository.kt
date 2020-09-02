@@ -26,7 +26,11 @@ class SearchMoviesRepository @Inject constructor(
         movies.combineWith(super.liveDataResult()) { list, next ->
             val items = mutableListOf<Movie>().apply {
                 addAll(list?.data ?: emptyList())
-                addAll(next?.data ?: emptyList())
+                if(list?.data?.isNullOrEmpty() == true)
+                    addAll(next?.data ?: emptyList())
+                            else if(next?.data?.isNotEmpty() == true &&
+                        next.data.first().imdbID != list!!.data!!.first().imdbID)
+                    addAll(next.data)
             }
             Resource(next?.status ?: list!!.status, items as List<Movie>, next?.message)
         }

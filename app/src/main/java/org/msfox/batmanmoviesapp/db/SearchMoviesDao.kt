@@ -11,7 +11,7 @@ abstract class SearchMoviesDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract suspend fun insertMovies(movies: List<Movie>)
 
-    @Query("SELECT * FROM movie_table WHERE `imdbID` IN (:imdbIds)")
+    @Query("SELECT * FROM movie_table WHERE `imdbID` IN (:imdbIds) ORDER BY saveTime")
     abstract suspend fun getMoviesByIds(imdbIds: List<String>): List<Movie>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -24,7 +24,7 @@ abstract class SearchMoviesDao {
     abstract suspend fun deleteAllQueryIds()
 
     @Query("DELETE FROM query_ids_table WHERE `query` = :query")
-    abstract suspend fun deleteQuery(query: String)
+    abstract suspend fun deleteQuery(query: String): Int
 
     @Transaction
     open suspend fun getMovies(query: String): List<Movie>{
@@ -49,6 +49,10 @@ abstract class SearchMoviesDao {
         val queryIds = QueryIds(query, totalIds)
 
         insertQueryIds(queryIds)
+
+        for ((index, movie) in movies.withIndex()){
+            movie.saveTime = System.currentTimeMillis() + index
+        }
         insertMovies(movies)
     }
 }

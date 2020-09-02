@@ -59,7 +59,7 @@
                     android:layout_marginTop="@dimen/half_default_margin"
                     android:layout_marginBottom="@dimen/half_default_margin"
                     android:singleLine="true"
-                    android:text="@{@string/item_year(item.year)}"
+                    android:text="@{@string/item_year(item.saveTime)}"
                     android:textColor="@color/secondaryTextColor"
                     android:textSize="14sp"/>
 

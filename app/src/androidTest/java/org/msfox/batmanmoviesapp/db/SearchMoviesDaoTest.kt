@@ -98,7 +98,7 @@ class SearchMoviesDaoTest : AppDbTest() {
         Assert.assertEquals(moviesPage2.movies.last().title, getMovies.last().title)
 
         //delete queries in case of refresh
-        searchMoviesDao.deleteQuery(query)
+        val deletedRows = searchMoviesDao.deleteQuery(query)
         getMovies = searchMoviesDao.getMovies(query)
         Assert.assertEquals(0, getMovies.count())
     }

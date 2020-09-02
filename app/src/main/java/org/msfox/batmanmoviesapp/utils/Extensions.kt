@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import kotlin.math.floor
 
 
+fun <T> T.wasted(){}
+
 val <T> T.exhaustive : T
     get() = this
 

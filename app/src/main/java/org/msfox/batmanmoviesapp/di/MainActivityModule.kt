@@ -2,7 +2,7 @@ package org.msfox.batmanmoviesapp.di
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import org.msfox.batmanmoviesapp.MainActivity
+import org.msfox.batmanmoviesapp.ui.MainActivity
 
 @Suppress("unused")
 @Module

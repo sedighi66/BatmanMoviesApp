@@ -5,6 +5,7 @@ import android.content.Context
 import androidx.room.Room
 import dagger.Module
 import dagger.Provides
+import org.msfox.batmanmoviesapp.api.MovieService
 import org.msfox.batmanmoviesapp.api.NetworkResponseAdapterFactory
 import org.msfox.batmanmoviesapp.api.SearchMovies
 import org.msfox.batmanmoviesapp.db.AppDb
@@ -18,14 +19,15 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideSearchMovies(): SearchMovies {
+    fun provideSearchMovies(): MovieService {
         return Retrofit.Builder()
             .baseUrl("http://www.omdbapi.com/")
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(NetworkResponseAdapterFactory())
             .build()
-            .create(SearchMovies::class.java)
+            .create(MovieService::class.java)
     }
+    @Singleton
     @Provides
     fun provideContext(application: Application): Context{
         return application.applicationContext
