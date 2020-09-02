@@ -68,7 +68,7 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_movie"
+            android:src="@{item.type == `game` ? @drawable/ic_game : (item.type == `series` ? @drawable/ic_series : @drawable/ic_movie)}"
             android:layout_gravity="bottom|end"
             android:layout_marginBottom="@dimen/default_margin"
             android:layout_marginEnd="@dimen/default_margin"
