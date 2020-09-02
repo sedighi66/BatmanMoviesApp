@@ -21,7 +21,7 @@ class AppModule {
     @Provides
     fun provideSearchMovies(): MovieService {
         return Retrofit.Builder()
-            .baseUrl("http://www.omdbapi.com/")
+            .baseUrl("https://www.omdbapi.com/")
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(NetworkResponseAdapterFactory())
             .build()
