@@ -46,7 +46,7 @@ class MovieServiceTest {
 
     @Test
     fun getDescription() = runBlocking{
-        enqueueResponse("description.json")
+        enqueueResponse("description-movie.json")
         val response = service.description("tt0372784")
         val document = (response as NetworkResponse.Success).body
 
@@ -58,7 +58,6 @@ class MovieServiceTest {
         Assert.assertThat<Description>(document, IsNull.notNullValue())
         Assert.assertThat(document.response, Is.`is`("True"))
         Assert.assertThat(document.title, Is.`is`("Batman Begins"))
-        Assert.assertThat(document.ratings.count(), Is.`is`(3))
     }
 
     @Test

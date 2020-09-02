@@ -20,7 +20,7 @@ object MoviesProvider {
     }
 
     fun getDescriptionPage(): Description{
-        val json = JsonString.getJsonAsString("description.json")
+        val json = JsonString.getJsonAsString("description-movie.json")
         val gson = Gson()
         return gson.fromJson(json, Description::class.java)
     }
