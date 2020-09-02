@@ -41,9 +41,9 @@ class MainActivity : AppCompatActivity() {
 
         adapter = ItemListAdapter(appCoroutineDispatchers, dataBindingComponent) { item ->
             //onclick implementation
-//            val intent = Intent(this, DescriptionActivity::class.java)
-//            intent.putExtra(ID, item.id)
-//            startActivity(intent)
+            val intent = Intent(this, DescriptionActivity::class.java)
+            intent.putExtra(ID, item.imdbID)
+            startActivity(intent)
         }
         binding.itemList.adapter = adapter
         initItemList()
@@ -66,6 +66,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object{
-        const val ID = "id"
+        const val ID = "imdbId"
     }
 }

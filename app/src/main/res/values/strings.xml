@@ -5,4 +5,7 @@
     <string name="internet_connection">Please check your internet connection.</string>
     <string name="item_image_view">item image view</string>
     <string name="retry">Retry</string>
+    <string name="item_name"><b>TITLE:  %s</b></string>
+    <string name="item_desc"><b>ACTORS:  %s</b></string>
+    <string name="item_date"><b>YEAR:  %s</b></string>
 </resources>

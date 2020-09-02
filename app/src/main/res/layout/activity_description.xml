@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="org.msfox.batmanmoviesapp.repository.Status" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="status"
+            type="org.msfox.batmanmoviesapp.repository.Status" />
+
+        <variable
+            name="item"
+            type="org.msfox.batmanmoviesapp.model.Description" />
+        <variable
+            name="viewModel"
+            type="org.msfox.batmanmoviesapp.vm.DescriptionViewModel" />
+
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/large_image_height"
+            android:layout_margin="@dimen/half_default_margin"
+            android:adjustViewBounds="false"
+            android:contentDescription="@string/item_image_view"
+            android:cropToPadding="false"
+            android:scaleType="fitCenter"
+            app:imageUrl="@{item.poster}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="@dimen/half_default_margin"
+            android:singleLine="true"
+            android:text="@{@string/item_name(item.title)}"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/half_default_margin"
+            android:layout_marginBottom="@dimen/half_default_margin"
+            android:singleLine="true"
+            android:text="@{@string/item_desc(item.actors)}"
+            android:textColor="@color/secondaryTextColor"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/name" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/half_default_margin"
+            android:layout_marginBottom="@dimen/half_default_margin"
+            android:singleLine="true"
+            android:text="@{@string/item_date(item.year)}"
+            android:textColor="@color/secondaryTextColor"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/description" />
+
+        <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+            style="@style/Widget.MaterialProgressBar.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:indeterminate="true"
+            android:visibility="@{status == Status.LOADING ? View.VISIBLE : View.GONE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:mpb_progressStyle="horizontal"
+            app:mpb_useIntrinsicPadding="false" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
