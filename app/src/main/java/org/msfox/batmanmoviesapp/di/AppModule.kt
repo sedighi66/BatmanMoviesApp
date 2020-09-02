@@ -9,6 +9,7 @@ import org.msfox.batmanmoviesapp.api.MovieService
 import org.msfox.batmanmoviesapp.api.NetworkResponseAdapterFactory
 import org.msfox.batmanmoviesapp.api.SearchMovies
 import org.msfox.batmanmoviesapp.db.AppDb
+import org.msfox.batmanmoviesapp.db.DescriptionDao
 import org.msfox.batmanmoviesapp.db.SearchMoviesDao
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -44,8 +45,14 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideVehicleDao(db: AppDb): SearchMoviesDao {
+    fun provideSearchMoviesDao(db: AppDb): SearchMoviesDao {
         return db.searchMoviesDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideDescriptionDao(db: AppDb): DescriptionDao {
+        return db.descriptionDao()
     }
 
 }
