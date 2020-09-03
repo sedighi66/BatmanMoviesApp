@@ -15,4 +15,6 @@ class DescriptionViewModel @Inject constructor(
     fun getDescription(imdbId: String): LiveData<Resource<Description>> {
         return repo.getDescription(imdbId)
     }
+
+    fun loadData() = repo.loadData()
 }

@@ -26,6 +26,10 @@ class DescriptionRepository @Inject constructor(
         return liveDataResult()
     }
 
+    fun loadData(){
+        fetchNetwork()
+    }
+
     override suspend fun createCall(): NetworkResponse<Description, Any> =
         service.description(imdbId)
 

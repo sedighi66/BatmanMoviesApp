@@ -130,7 +130,4 @@ dependencies {
 
     //elasticview
     implementation 'com.github.armcha:ElasticView:0.2.0'
-
-    //renderScript
-    implementation 'com.github.jgabrielfreitas:BlurImageView:1.0.1'
 }
