@@ -43,7 +43,7 @@
             android:visibility="@{status == Status.LOADING ? View.VISIBLE : View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:mpb_progressStyle="horizontal"
             app:mpb_useIntrinsicPadding="false" />
 
@@ -53,7 +53,7 @@
             android:visibility="@{status == status.ERROR ? View.VISIBLE : View.GONE}"
             android:background="@color/colorAccent"
             android:text="@string/retry"
-            android:textColor="@color/primaryTextColor"
+            android:textColor="@color/white"
             android:textSize="14sp"
             android:onClick="@{() -> viewModel.loadData()}"
             app:layout_constraintBottom_toBottomOf="parent"

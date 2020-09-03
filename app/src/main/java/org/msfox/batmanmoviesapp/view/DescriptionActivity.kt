@@ -21,6 +21,7 @@ package org.msfox.batmanmoviesapp.view
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingComponent
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -58,6 +59,12 @@ class DescriptionActivity : AppCompatActivity() {
         viewModel.getDescription(id!!).observe(this, Observer {item ->
             binding.status = item.status
             binding.item = item.data
+            val typeDrawable = when (item.data?.type) {
+                "series" -> ContextCompat.getDrawable(this, R.drawable.ic_series)
+                "movie" -> ContextCompat.getDrawable(this, R.drawable.ic_movie)
+                else -> ContextCompat.getDrawable(this, R.drawable.ic_game)
+            }
+            binding.type.setImageDrawable(typeDrawable)
 
             binding.viewModel = viewModel
 

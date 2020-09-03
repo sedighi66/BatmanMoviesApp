@@ -56,6 +56,7 @@ def addRepos(RepositoryHandler handler) {
     handler.maven { url 'https://maven.google.com' }
     handler.google()
     handler.jcenter()
+    handler.maven { url "https://jitpack.io" }
 
 }
 ext.addRepos = this.&addRepos

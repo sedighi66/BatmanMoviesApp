@@ -30,7 +30,7 @@
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="600dp"
                 android:adjustViewBounds="false"
                 android:contentDescription="@string/item_image_view"
                 android:cropToPadding="false"
